@@ -158,7 +158,9 @@ class _SignUpState extends State<SignUp> {
                             if (formKey.currentState!.validate()) {
                               UserModel userModel = UserModel(
                                   email: email.text, userName: name.text);
-                              signUpBloc.add(StoreUser(userModel: userModel));
+                              signUpBloc.add(StoreUser(
+                                userModel: userModel,
+                              ));
                               signUpBloc.add(Signup(
                                   email: email.text, password: password.text));
                             }

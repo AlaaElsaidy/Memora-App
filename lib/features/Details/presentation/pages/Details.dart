@@ -268,6 +268,7 @@ class _DetailsState extends State<Details> {
                     useButton(
                         onClick: () {
                           var userDetailsModel = UserDetailsModel(
+                              id:,
                               fullName: name.text,
                               date: widget.selectedDate,
                               gender: widget.fmaleSwitch ? "Female" : "Male",

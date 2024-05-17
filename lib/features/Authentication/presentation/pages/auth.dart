@@ -68,13 +68,12 @@ class Auth extends StatelessWidget {
                 onClick: () {
                   Navigator.pushNamed(context, AppRoutesName.news);
                 },
-                txt: "Just want to know about alzahimer",
+                txt: "Alzahimer News",
                 context: context,
                 bgcolor: AppColors.grayColor,
                 style: Theme.of(context)
                     .textTheme
-                    .bodySmall!
-                    .copyWith(fontSize: 16.9.sp)),
+                    .bodySmall),
             Spacer(flex: 2),
           ],
         ),

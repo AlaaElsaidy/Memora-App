@@ -21,7 +21,7 @@ class AppRouting{
      switch (settings.name){
        case AppRoutesName.auth:
          return MaterialPageRoute(
-          builder: (context) => Details(),
+          builder: (context) => Auth(),
         );
       case AppRoutesName.news:
          return MaterialPageRoute(builder: (context) => News(),);

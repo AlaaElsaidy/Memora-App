@@ -44,7 +44,7 @@ class Auth extends StatelessWidget {
             ),
             useButton(
                 onClick: () {
-                  Navigator.pushNamed(context, AppRoutesName.login);
+                  Navigator.pushNamed(context, AppRoutesName.detection);
                 },
                 txt: "Detection",
                 context: context,

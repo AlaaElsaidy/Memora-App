@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -37,10 +38,9 @@ class _DetailsState extends State<Details> {
 
   final imagePicker = ImagePicker();
   File? usedImage;
-  ImageSource? source;
 
   Future<void> chooseImage() async {
-    var pickedImage = await imagePicker.pickImage(source: source!);
+    var pickedImage = await imagePicker.pickImage(source: ImageSource.camera);
     if (pickedImage != null) {
       image = File(pickedImage!.path);
       setState(() {});
@@ -73,68 +73,55 @@ class _DetailsState extends State<Details> {
               style: Theme.of(context).textTheme.bodyLarge,
             ),
             SizedBox(
-              height: 30.h,
+              height: 50.h,
             ),
-            Container(
-              height: 150.h,
-              width: 150.w,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(75.r))),
-              child: ClipRRect(
-                  borderRadius: BorderRadius.all(Radius.circular(75.r)),
-                  child: image != null
-                      ? Image.file(
-                          image!,
-                          fit: BoxFit.fill,
-                        )
-                      : Image.asset(
-                          "assets/images/icon.png",
-                          // width: 500,
-                          // height: 500,
-                          fit: BoxFit.cover,
-                          color: AppColors.deepgrayColor,
-                        )),
-            ),
-            SizedBox(
-              height: 10.h,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                InkWell(
-                    onTap: () {
-                      source = ImageSource.camera;
-                      chooseImage();
-                    },
-                    child: Container(
-                      height: 47.h,
-                      width: 47.w,
+            InkWell(
+              onTap: () {
+                chooseImage();
+              },
+              child: Stack(
+                alignment: Alignment.bottomRight,
+                children: [
+                  Container(
+                    height: 130.h,
+                    width: 130.w,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(100.r))),
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.all(Radius.circular(100.r)),
+                        child: image != null
+                            ? Image.file(
+                                image!,
+                                fit: BoxFit.fill,
+                              )
+                            : Image.asset(
+                                "assets/images/icon.png",
+                                width: 500,
+                                height: 500,
+                                fit: BoxFit.fill,
+                                color: AppColors.deepgrayColor,
+                              )),
+                  ),
+                  Container(
                       decoration: BoxDecoration(
-                          color: Colors.transparent,
-                          borderRadius: BorderRadius.circular(35.r),
-                          border: Border.all(color: AppColors.primaryColor)),
-                      child: Icon(Icons.camera_alt_rounded,
-                          size: 30.sp, color: AppColors.primaryColor),
-                    )),
-                SizedBox(
-                  width: 40.w,
-                ),
-                InkWell(
-                    onTap: () {
-                      source = ImageSource.gallery;
-                      chooseImage();
-                    },
-                    child: Container(
-                      height: 47.h,
-                      width: 47.w,
-                      decoration: BoxDecoration(
-                          color: Colors.transparent,
-                          borderRadius: BorderRadius.circular(35.r),
-                          border: Border.all(color: AppColors.primaryColor)),
-                      child: Icon(Icons.photo,
-                          size: 30.sp, color: AppColors.primaryColor),
-                    ))
-              ],
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(100.r)),
+                          color: Colors.grey),
+                      child: Padding(
+                        padding: EdgeInsets.all(5.0.r),
+                        child: image == null
+                            ? Icon(
+                                Icons.camera_alt_rounded,
+                                size: 35.sp,
+                                color: Colors.white,
+                              )
+                            : Icon(
+                                Icons.edit,
+                                color: Colors.white,
+                              ),
+                      ))
+                ],
+              ),
             )
           ],
         ),
@@ -179,22 +166,18 @@ class _DetailsState extends State<Details> {
                   ),
                 );
               }
-            }
-            else if (state.status == LocationStatus.success) {
-             var position = state.location;
-             widget.position=position;
+            } else if (state.status == LocationStatus.success) {
+              var position = state.location;
+              widget.position = position;
               markers.add(Marker(
                   markerId: const MarkerId('myPosition'),
-                  position: LatLng(
-                      position!.latitude, position.longitude)));
+                  position: LatLng(position!.latitude, position.longitude)));
 
               final GoogleMapController controller = await mapcontroller.future;
               await controller.animateCamera(CameraUpdate.newCameraPosition(
                   CameraPosition(
-                      target: LatLng(position.latitude,
-                          position.longitude),
+                      target: LatLng(position.latitude, position.longitude),
                       zoom: 12)));
-
             }
             if (state.firestatus == RequestStatus.success) {
               Navigator.pushNamedAndRemoveUntil(
@@ -222,17 +205,6 @@ class _DetailsState extends State<Details> {
                                 widget.selectedDate.toString().substring(0, 10),
                             onClick: () async {
                               widget.selectedDate = (await showDatePicker(
-                                  builder: (context, child) {
-                                    return Theme(
-                                      data: Theme.of(context).copyWith(
-                                          colorScheme: ColorScheme.light(
-                                        primary: Colors.grey,
-                                        onPrimary: AppColors
-                                            .primaryColor, // header text color
-                                      )),
-                                      child: child!,
-                                    );
-                                  },
                                   context: context,
                                   firstDate: widget.today,
                                   lastDate:
@@ -244,11 +216,7 @@ class _DetailsState extends State<Details> {
                               setState(() {});
                             }),
                         Inputs(
-                            txt: widget.fmaleSwitch
-                                ? " Female"
-                                : widget.maleSwitch
-                                    ? " Male"
-                                    : " Other",
+                            txt: widget.fmaleSwitch ? "Female" : "Male",
                             onClick: () {
                               showModalBottomSheet(
                                 context: context,

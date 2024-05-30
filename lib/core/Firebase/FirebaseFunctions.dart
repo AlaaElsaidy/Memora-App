@@ -4,6 +4,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:injectable/injectable.dart';
 import 'package:memora/features/Details/data/models/userDetailsModel.dart';
 import 'package:memora/features/signUp/data/models/userModel.dart';
+
+import '../../features/trackingtab/data/model/trackingModel.dart';
 @injectable
 class FirebaseFunctions{
   Future<UserCredential> signup(String email,String password)async{
@@ -51,3 +53,21 @@ class FirebaseFunctions{
   }
 
 }
+Future<void> saveLocation(TrackingModel trackingModel) async {
+  var collection=FirebaseFirestore.instance
+      .collection(TrackingModel.collecionName)
+      .withConverter<TrackingModel>(
+    fromFirestore: (snapshot, _) {
+      return TrackingModel.fromJson(snapshot.data()!);
+    },
+    toFirestore: (value, _) {
+      return value.toJson();
+    },
+  );
+  var docRf = collection.doc();
+  trackingModel.id = docRf.id;
+  docRf.set(trackingModel);
+}
+
+
+

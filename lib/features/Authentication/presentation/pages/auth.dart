@@ -40,18 +40,40 @@ class Auth extends StatelessWidget {
               ],
             ),
             SizedBox(
-              height: MediaQuery.of(context).size.height*.1.h,
+              height: MediaQuery.of(context).size.height * .1.h,
             ),
-            useButton(onClick: (){
-              Navigator.pushNamed(context,AppRoutesName.login);
-            }, txt:"Login as Pastient", context: context, bgcolor: AppColors.grayColor, style: Theme.of(context).textTheme.bodySmall),
+            useButton(
+                onClick: () {
+                  Navigator.pushNamed(context, AppRoutesName.login);
+                },
+                txt: "Detection",
+                context: context,
+                bgcolor: AppColors.grayColor,
+                style: Theme.of(context).textTheme.bodySmall),
             SizedBox(
-              height: MediaQuery.of(context).size.height*.02.h,
+              height: MediaQuery.of(context).size.height * .02.h,
             ),
-            useButton(onClick: (){
-              Navigator.pushNamed(context, AppRoutesName.news);
-            }, txt:"Just want to know about alzahimer", context: context, bgcolor: AppColors.grayColor, style: Theme.of(context).textTheme.bodySmall),
-
+            useButton(
+                onClick: () {
+                  Navigator.pushNamed(context, AppRoutesName.login);
+                },
+                txt: "Login as Pastient",
+                context: context,
+                bgcolor: AppColors.grayColor,
+                style: Theme.of(context).textTheme.bodySmall),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * .02.h,
+            ),
+            useButton(
+                onClick: () {
+                  Navigator.pushNamed(context, AppRoutesName.news);
+                },
+                txt: "Alzahimer News",
+                context: context,
+                bgcolor: AppColors.grayColor,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodySmall),
             Spacer(flex: 2),
           ],
         ),

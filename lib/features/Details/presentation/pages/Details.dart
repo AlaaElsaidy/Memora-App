@@ -8,7 +8,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:memora/config.dart';
 import 'package:memora/config/routes/app_router.dart';
-import 'package:memora/core/Location/location.dart';
 import 'package:memora/core/components/reusable_components.dart';
 import 'package:memora/core/enums/enums.dart';
 import 'package:memora/core/utilies/app_colors.dart';
@@ -38,9 +37,10 @@ class _DetailsState extends State<Details> {
 
   final imagePicker = ImagePicker();
   File? usedImage;
+  ImageSource? source;
 
   Future<void> chooseImage() async {
-    var pickedImage = await imagePicker.pickImage(source: ImageSource.camera);
+    var pickedImage = await imagePicker.pickImage(source: source!);
     if (pickedImage != null) {
       image = File(pickedImage!.path);
       setState(() {});
@@ -73,55 +73,68 @@ class _DetailsState extends State<Details> {
               style: Theme.of(context).textTheme.bodyLarge,
             ),
             SizedBox(
-              height: 50.h,
+              height: 30.h,
             ),
-            InkWell(
-              onTap: () {
-                chooseImage();
-              },
-              child: Stack(
-                alignment: Alignment.bottomRight,
-                children: [
-                  Container(
-                    height: 130.h,
-                    width: 130.w,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(100.r))),
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.all(Radius.circular(100.r)),
-                        child: image != null
-                            ? Image.file(
-                                image!,
-                                fit: BoxFit.fill,
-                              )
-                            : Image.asset(
-                                "assets/images/icon.png",
-                                width: 500,
-                                height: 500,
-                                fit: BoxFit.fill,
-                                color: AppColors.deepgrayColor,
-                              )),
-                  ),
-                  Container(
+            Container(
+              height: 150.h,
+              width: 150.w,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(75.r))),
+              child: ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(75.r)),
+                  child: image != null
+                      ? Image.file(
+                          image!,
+                          fit: BoxFit.fill,
+                        )
+                      : Image.asset(
+                          "assets/images/icon.png",
+                          // width: 500,
+                          // height: 500,
+                          fit: BoxFit.cover,
+                          color: AppColors.deepgrayColor,
+                        )),
+            ),
+            SizedBox(
+              height: 10.h,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                InkWell(
+                    onTap: () {
+                      source = ImageSource.camera;
+                      chooseImage();
+                    },
+                    child: Container(
+                      height: 47.h,
+                      width: 47.w,
                       decoration: BoxDecoration(
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(100.r)),
-                          color: Colors.grey),
-                      child: Padding(
-                        padding: EdgeInsets.all(5.0.r),
-                        child: image == null
-                            ? Icon(
-                                Icons.camera_alt_rounded,
-                                size: 35.sp,
-                                color: Colors.white,
-                              )
-                            : Icon(
-                                Icons.edit,
-                                color: Colors.white,
-                              ),
-                      ))
-                ],
-              ),
+                          color: Colors.transparent,
+                          borderRadius: BorderRadius.circular(35.r),
+                          border: Border.all(color: AppColors.primaryColor)),
+                      child: Icon(Icons.camera_alt_rounded,
+                          size: 30.sp, color: AppColors.primaryColor),
+                    )),
+                SizedBox(
+                  width: 40.w,
+                ),
+                InkWell(
+                    onTap: () {
+                      source = ImageSource.gallery;
+                      chooseImage();
+                    },
+                    child: Container(
+                      height: 47.h,
+                      width: 47.w,
+                      decoration: BoxDecoration(
+                          color: Colors.transparent,
+                          borderRadius: BorderRadius.circular(35.r),
+                          border: Border.all(color: AppColors.primaryColor)),
+                      child: Icon(Icons.photo,
+                          size: 30.sp, color: AppColors.primaryColor),
+                    ))
+              ],
             )
           ],
         ),
@@ -209,6 +222,17 @@ class _DetailsState extends State<Details> {
                                 widget.selectedDate.toString().substring(0, 10),
                             onClick: () async {
                               widget.selectedDate = (await showDatePicker(
+                                  builder: (context, child) {
+                                    return Theme(
+                                      data: Theme.of(context).copyWith(
+                                          colorScheme: ColorScheme.light(
+                                        primary: Colors.grey,
+                                        onPrimary: AppColors
+                                            .primaryColor, // header text color
+                                      )),
+                                      child: child!,
+                                    );
+                                  },
                                   context: context,
                                   firstDate: widget.today,
                                   lastDate:
@@ -220,7 +244,11 @@ class _DetailsState extends State<Details> {
                               setState(() {});
                             }),
                         Inputs(
-                            txt: widget.fmaleSwitch ? "Female" : "Male",
+                            txt: widget.fmaleSwitch
+                                ? " Female"
+                                : widget.maleSwitch
+                                    ? " Male"
+                                    : " Other",
                             onClick: () {
                               showModalBottomSheet(
                                 context: context,

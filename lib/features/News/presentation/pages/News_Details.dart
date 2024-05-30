@@ -32,6 +32,7 @@ class _NewsDetailsState extends State<NewsDetails> {
               progressIndicatorBuilder: (context, url, downloadProgress) =>
                   Center(
                       child: CircularProgressIndicator(
+                          color: AppColors.primaryColor,
                           value: downloadProgress.progress)),
               errorWidget: (context, url, error) => Icon(Icons.error),
             ),

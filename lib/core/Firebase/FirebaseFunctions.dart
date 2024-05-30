@@ -60,6 +60,10 @@ class FirebaseFunctions {
   Future<void> getData(collectionName) async {
     CollectionReference users =
         FirebaseFirestore.instance.collection(collectionName);
-    users.doc(userUID).get();
+    users.doc(userUID).withConverter(fromFirestore: (snapshot, _) {
+      return UserDetailsModel.fromJson(snapshot.data()!);
+    }, toFirestore: (value, _) {
+      return value.toJson();
+    }).get();
   }
 }

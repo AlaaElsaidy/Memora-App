@@ -1,23 +1,38 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
 import 'package:memora/core/Firebase/FirebaseFunctions.dart';
 import 'package:memora/features/signUp/data/data_sources/remoteDs/SignUpDs.dart';
 import 'package:memora/features/signUp/data/models/userModel.dart';
+
+import '../../models/userDetailsModel.dart';
 @Injectable(as: SignUpDs)
 class SignUpDsImp implements SignUpDs{
   FirebaseFunctions firebaseFunctions;
 
   SignUpDsImp(this.firebaseFunctions);
 
+  // @override
+  // Future<UserCredential> SignUp(UserModel userModel, String password)async {
+  //   return await firebaseFunctions.signup(userModel.email as UserModel, password);
+  // }
+
   @override
-  Future<UserCredential> SignUp(String email, String password)async {
-    return await firebaseFunctions.signup(email, password);
+  Future<void> storeUser(UserDetailsModel userModel,String userUID)async {
+   await firebaseFunctions.updateUser(userModel,userUID);
   }
 
   @override
-  Future<void> storeUser(UserModel userModel)async {
-   await firebaseFunctions.addUser(userModel);
+  Future<UserCredential> SignUp(UserModel userModel, String password)async {
+    return await firebaseFunctions.signup(userModel, password);
   }
+
+  @override
+  Stream<QuerySnapshot<UserModel>> getUser(String userUID) {
+   return getUser(userUID);
+  }
+
+
 
 
 

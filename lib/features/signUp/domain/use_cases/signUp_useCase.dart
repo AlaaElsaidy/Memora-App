@@ -4,10 +4,11 @@ import 'package:injectable/injectable.dart';
 import 'package:memora/features/signUp/domain/repositories/SignUpRepo.dart';
 
 import '../../../../core/failures/failures.dart';
+import '../../data/models/userModel.dart';
 @injectable
 class SignUpUseCase{
   SignUpRepo signUpRepo;
 
   SignUpUseCase(this.signUpRepo);
-  Future<Either<Failures, UserCredential>>call(String email, String password)=>signUpRepo.signUp(email, password);
+  Future<Either<Failures, UserCredential>>call(UserModel userModel, String password)=>signUpRepo.signUp(userModel, password);
 }

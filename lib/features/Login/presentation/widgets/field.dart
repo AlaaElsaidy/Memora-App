@@ -4,18 +4,20 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/utilies/app_colors.dart';
 
 class Field extends StatelessWidget {
- Field({super.key ,required this.onClick,required this.controller,required this.type,required this.txt});
+ Field({super.key ,required this.onClick,required this.controller,required this.type,required this.txt,this. secure=false});
 
  Function onClick;
  TextEditingController controller=TextEditingController();
  TextInputType type;
  String txt;
+ bool secure=false;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ) {
     return SizedBox(
       height: 55.h,
       child: TextFormField(
+        obscureText: secure,
         textAlign: TextAlign.left,
         controller: controller,
         validator: (value) {

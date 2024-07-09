@@ -54,20 +54,29 @@ class _NewsState extends State<News> {
               ),
         body: BlocConsumer<NewsBloc, NewsState>(
           listener: (context, state) {
-            if (state.status == RequestStatus.loading) {
-              showDialog(
-                  context: context,
-                  builder: (context) => Center(
-                      child: CircularProgressIndicator(
-                        color: AppColors.primaryColor,
-                      )));
-            }
             if (state.status == RequestStatus.failure) {
-              Center(child: Text("Something went Wrong"));
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: Text("Error"),
+                  content: Text("Something went wrong."),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      child: Text("OK"),
+                    ),
+                  ],
+                ),
+              );
             }
-
           },
           builder: (context, state) {
+            if (state.status == RequestStatus.loading) {
+              return Center(
+                  child: CircularProgressIndicator(
+                color: AppColors.primaryColor,
+              ));
+            }
             if (state.status == RequestStatus.success) {
               List<Articles>? data = state.newsModel?.articles ?? [];
               switch (isclicked) {

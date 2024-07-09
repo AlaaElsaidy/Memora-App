@@ -105,7 +105,7 @@ class _TrackingTabState extends State<TrackingTab> {
               ),
             ),
           ),
-          SizedBox(height: 14),
+          SizedBox(height: 14.h),
           Expanded(
             child: FutureBuilder<Position>(
               future: _determinePosition(),
@@ -130,7 +130,7 @@ class _TrackingTabState extends State<TrackingTab> {
               },
             ),
           ),
-          SizedBox(height: 16),
+          SizedBox(height: 16.h),
           SizedBox(
             height: 40.h,
             child: ElevatedButton(
@@ -191,15 +191,15 @@ class _TrackingTabState extends State<TrackingTab> {
       Column(
         children: [
           Container(
-            width: 120,
-            height: 120,
+            width: 120.w,
+            height: 120.h,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(60),
               color: Colors.grey.withOpacity(0.3),
             ),
             child: image != null
                 ? Image.file(File(image!.path), fit: BoxFit.cover)
-                : Icon(Icons.image, size: 90, color: Colors.grey),
+                : Icon(Icons.image, size: 90.sp, color: Colors.grey),
           ),
           SizedBox(height: 8.h),
           Row(
@@ -211,7 +211,7 @@ class _TrackingTabState extends State<TrackingTab> {
                 },
                 icon: Icon(Icons.photo, color: AppColors.primaryColor,),
               ),
-              SizedBox(width: 14),
+              SizedBox(width: 14.w),
               IconButton(
                 onPressed: () async {
                   await _chooseImage(ImageSource.camera);

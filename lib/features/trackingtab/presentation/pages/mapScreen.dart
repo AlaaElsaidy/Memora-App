@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -38,9 +40,9 @@ class _MapScreenState extends State<MapScreen> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: EdgeInsets.all(16.0.r),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 ElevatedButton(
                   onPressed: _locateButtonPressed,
@@ -57,10 +59,10 @@ class _MapScreenState extends State<MapScreen> {
                       foregroundColor: Colors.white),
                   child: Text('Locate saved place'),
                 ),
-                IconButton(
+                Expanded(child:IconButton(
                   onPressed: _navigateButtonPressed,
                   icon: Icon(Icons.navigation),
-                ),
+                ),)
               ],
             ),
           ),

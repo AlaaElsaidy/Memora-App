@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:memora/features/profiletab/presentation/pages/profile_tab.dart';
 import 'package:memora/features/Contacts/presentation/pages/Contacts.dart';
 import 'package:memora/features/Home/presentation/pages/home.dart';
 import 'package:memora/features/activitiestab/presentation/pages/activities_tab.dart';
+import 'package:memora/features/profiletab/presentation/pages/profile_tab.dart';
 import 'package:memora/features/trackingtab/presentation/pages/tracking_tab.dart';
-import '../../../../core/utilies/app_colors.dart';
-import '../widget/usedBottomNavBar.dart';
+
 import '../widget/usedAppBar.dart';
+import '../widget/usedBottomNavBar.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
+  MainScreen({Key? key, this.userUID}) : super(key: key);
+  String? userUID;
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -26,7 +26,6 @@ class _MainScreenState extends State<MainScreen> {
     String title = '';
 
     switch (index) {
-
       case 1:
         title = 'Activities';
         appBar = UsedAppBar(title: title);
@@ -36,18 +35,19 @@ class _MainScreenState extends State<MainScreen> {
         appBar = UsedAppBar(title: title);
         break;
       case 3:
-        title = 'Contacts';
-        appBar = UsedAppBar(title: title);
-        break;
-      case 4:
-        title = 'Profile';
+        title = 'Contact List';
         appBar = UsedAppBar(title: title);
         break;
     }
 
     return Scaffold(
-
-      appBar: appBar != null ? appBar : null,
+      appBar: index == 4
+          ? null
+          : index == 0
+              ? null
+              : UsedAppBar(
+                  title: title,
+                ),
       bottomNavigationBar: UsedBottomNavBar(
         index: index,
         onClick: (value) {
@@ -56,16 +56,16 @@ class _MainScreenState extends State<MainScreen> {
           });
         },
       ),
-
-
       body: IndexedStack(
         index: index,
         children: [
-           Home(imagePreview: null,),
-          ActivitiesTab(),
+          Home(imagePreview: null, userUID: widget.userUID),
+          ActivityScreen(),
           TrackingTab(),
-           ProfileTab(),
-           Contacts(),
+          Contacts(),
+          Profile(
+            userUID: widget.userUID,
+          ),
         ],
       ),
     );

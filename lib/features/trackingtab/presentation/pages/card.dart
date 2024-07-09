@@ -28,12 +28,12 @@ class Cardd extends StatelessWidget {
         shadowColor: AppColors.primaryColor,
         elevation: 1,
         color: Colors.white,
-        margin: const EdgeInsets.all(11),
+        margin:  EdgeInsets.all(11.r),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(25),
+          borderRadius: BorderRadius.circular(25.r),
         ),
         child: Padding(
-          padding: EdgeInsets.all(6),
+          padding: EdgeInsets.all(6.r),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -49,7 +49,13 @@ class Cardd extends StatelessWidget {
                         color: Colors.grey.withOpacity(0.3),
                       ),
                       child: imgPath != null
-                          ? Image.file(File(imgPath!.path), fit: BoxFit.cover)
+                          ? ClipRRect(
+                        borderRadius: BorderRadius.circular(10), // assuming the image is 120x120
+                        child: Image.file(
+                          File(imgPath!.path),
+                          fit: BoxFit.cover,
+                        ),
+                      )
                           : Icon(Icons.image, size: 90, color: Colors.grey),
                     ),
                   ),
@@ -59,7 +65,7 @@ class Cardd extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 8),
+              SizedBox(height: 5.5.h),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 4),
                 child: Text(
@@ -68,7 +74,7 @@ class Cardd extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
               ),
-              SizedBox(height: 8),
+              SizedBox(height: 5.h),
               ElevatedButton(
                 onPressed: () {
                       Navigator.push(
@@ -80,11 +86,10 @@ class Cardd extends StatelessWidget {
                     },
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white, backgroundColor: AppColors.primaryColor,
-                  padding: EdgeInsets.symmetric(vertical: 6, horizontal: 10),
                 ),
                 child: Text(
                   "Navigate",
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Colors.white,),
                 ),
               ),
             ],

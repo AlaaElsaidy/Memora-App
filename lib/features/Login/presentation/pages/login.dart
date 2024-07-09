@@ -5,6 +5,7 @@ import 'package:memora/config.dart';
 import 'package:memora/config/routes/app_router.dart';
 import 'package:memora/core/enums/enums.dart';
 import 'package:memora/features/Login/presentation/bloc/login_bloc.dart';
+import 'package:memora/features/mainScreen/presentation/pages/mainScreen.dart';
 
 import '../../../../core/components/reusable_components.dart';
 import '../../../../core/utilies/app_colors.dart';
@@ -32,13 +33,13 @@ class _LoginState extends State<Login> {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-
+      appBar: AppBar(),
       body: BlocProvider(
         create: (context) => loginBloc,
         child: BlocConsumer<LoginBloc, LoginState>(
           listener: (context, state) {
             if(state.status==RequestStatus.success){
-              Navigator.pushNamedAndRemoveUntil(context, AppRoutesName.mainScreen, (route) => false);
+              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MainScreen(userUID: state.credential!.user!.uid,),), (route) => false);
             }
             if(state.status==RequestStatus.failure){
               showDialog(context: context, builder: (context) => AlertDialog(
@@ -101,6 +102,7 @@ class _LoginState extends State<Login> {
                     height: MediaQuery.of(context).size.height * .01.h,
                   ),
                   Field(
+                    secure: true,
                       controller: password,
                       onClick: (val) {
                         if (val == "" || val.isEmpty) {
